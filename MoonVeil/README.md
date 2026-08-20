@@ -20,5 +20,3 @@ Decompiler outputs
 - .payload.opcodes.txt: cross-prototype opcode frequency and role hints
 - .payload.headers.txt: inferred variable prototype header bytes
 - .payload.constants.txt: recovered constant pools with generic classifications
-
-The decompiler does not use sample-specific source templates. Unknown opcode semantics remain op_XX until a mapping is proven or added.
