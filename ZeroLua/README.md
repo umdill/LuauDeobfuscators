@@ -6,8 +6,6 @@ This was fairly simple to make because the whole obfuscator is vibecoded
 - .NET 8 SDK (https://aka.ms/dotnet/8.0/dotnet-sdk-win-x64.exe)
 - Windows, Linux, or macOS for command-line use
 
-## Usage
-
 ### Windows
 
 Drag a lua file onto run.bat output will be
