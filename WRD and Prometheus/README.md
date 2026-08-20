@@ -1,6 +1,6 @@
-# WRD Deobfuscator
+# WRD AND Prometheus Deobfuscator
 
-C#/.NET 8 deobfuscator for the WeAreDevs v1 Lua wrapper. (Prometheus)
+C#/.NET 8 deobfuscator for the WeAreDevs/Prometheus v1 Lua wrapper.
 
 ## Requires
 
