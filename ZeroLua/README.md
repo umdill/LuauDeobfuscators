@@ -10,7 +10,7 @@ Decodes the constant pool and VM prototypes, reconstructs Lua expressions and cl
 
 ### Windows
 
-Drag a lua file onto run.bat.
+Drag a lua file onto run.bat output will be
 
 ```text
 script.deobfuscated.lua
