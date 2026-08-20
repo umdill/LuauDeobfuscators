@@ -1,6 +1,6 @@
 # Zero Lua Deobfuscator
 Decodes the constant pool and VM prototypes, reconstructs Lua expressions and closures, resolves supported upvalues, and simplifies generated control flow if possible.
-
+This was fairly simple to make because the whole obfuscator is vibecoded
 ## Requirements
 
 - .NET 8 SDK (https://aka.ms/dotnet/8.0/dotnet-sdk-win-x64.exe)
