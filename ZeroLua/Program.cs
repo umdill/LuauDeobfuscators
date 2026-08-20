@@ -18,7 +18,7 @@ var outputPath = args.Length == 2
     : Path.Combine(
         Path.GetDirectoryName(inputPath) ?? Environment.CurrentDirectory,
         $"{Path.GetFileNameWithoutExtension(inputPath)}.deobfuscated.lua");
-var diagnosticsPath = outputPath + ".diagnostics.txt"; // for diagnostics (unneeded)
+var diagnosticsPath = outputPath + ".diagnostics.txt"; // for diagnostics 
 
 try
 {
@@ -30,6 +30,7 @@ try
 
     string deobfuscated = version switch
     {
+        "7.0" => ZeroLua70.Deobfuscate(source),
         "5.6" => new ZeroLua56(source).Deobfuscate(),
         "5.2" => new ZeroLua52(source).Deobfuscate(),
         _ => TryFallback(source)
@@ -61,29 +62,57 @@ catch (Exception ex)
 
 static string DetectVersion(string source)
 { // version detection
+    if (source.Contains("ZERO LUA V7.0", StringComparison.OrdinalIgnoreCase)) return "7.0";
     if (source.Contains("ZERO LUA V5.6", StringComparison.OrdinalIgnoreCase)) return "5.6";
     if (source.Contains("ZERO LUA V5.2", StringComparison.OrdinalIgnoreCase)) return "5.2";
     if (source.Contains("local vC=", StringComparison.Ordinal) && source.Contains(";local vD=", StringComparison.Ordinal)) return "5.2";
+    if (source.Contains("ZeroLua Security Engine", StringComparison.OrdinalIgnoreCase)) return "7.0"; // if banner is removed for 7.0
     return "unknown";
 }
 
 static string TryFallback(string source)
 {
-    Exception? first = null;
-    try { return new ZeroLua56(source).Deobfuscate(); }
-    catch (Exception ex) { first = ex; }
+    var errors = new List<Exception>();
 
-    try { return new ZeroLua52(source).Deobfuscate(); }
+    try
+    {
+        return ZeroLua70.Deobfuscate(source);
+    }
     catch (Exception ex)
     {
-        throw new AggregateException("must be v5.2 or v5.6!!", first!, ex);
+        errors.Add(ex);
     }
+
+    try
+    {
+        return new ZeroLua56(source).Deobfuscate();
+    }
+    catch (Exception ex)
+    {
+        errors.Add(ex);
+    }
+
+    try
+    {
+        return new ZeroLua52(source).Deobfuscate();
+    }
+    catch (Exception ex)
+    {
+        errors.Add(ex);
+    }
+
+    throw new AggregateException(
+        "Has to be ZeroLua 7.0, 5.6, or 5.2.",
+        errors);
 }
 
-static string VersionOrUnknown(string v) => v == "unknown" ? "auto-detect" : v;
+static string VersionOrUnknown(string v)
+{
+    return v == "unknown" ? "auto-detect" : v;
+}
 
 static void PrintUsage()
 {
-    Console.WriteLine("ZeroLua Deobfuscator (5.2 and 5.6)");
+    Console.WriteLine("ZeroLua Deobfuscator (5.2, 5.6 and 7.0)");
     Console.WriteLine("Usage: ZeroLuaDeobfuscator <input.lua> [output.lua]");
 }
