@@ -1,5 +1,5 @@
 # Zero Lua Deobfuscator
-Decodes the constant pool and VM prototypes, reconstructs Lua expressions and closures, resolves supported upvalues, and simplifies generated control flow where possible.
+Decodes the constant pool and VM prototypes, reconstructs Lua expressions and closures, resolves supported upvalues, and simplifies generated control flow if possible.
 
 ## Requirements
 
